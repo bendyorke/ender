@@ -1,0 +1,6 @@
+extends ../layout
+
+block content
+  form(action="/photos/create", method="POST", enctype="multipart/form-data")
+    input(type="file", name="file")
+    input(type="submit")

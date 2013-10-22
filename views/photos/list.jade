@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  div.photos-wrapper
+    div.photo-column.photo-column-left
+      each photo, index in photos
+        if index%3===0 
+          img(src="#{photo.url}", height="200", data-index="#{index}", data-mod3="#{index % 3}")
+    div.photo-column.photo-column-middle
+      each photo, index in photos
+        if index%3===1 
+          img(src="#{photo.url}", height="200", data-index="#{index}", data-mod3="#{index % 3}")
+    div.photo-column.photo-column-right
+      each photo, index in photos
+        if index%3===2 
+          img(src="#{photo.url}", height="200", data-index="#{index}", data-mod3="#{index % 3}")
+
+  script(type="text/javascript", src="./javascripts/photos_list.js")
