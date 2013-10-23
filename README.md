@@ -5,7 +5,7 @@ This is a website for Ender the puppy, a 6 week old siberean husky.
 
 Technology
 =====
-ome of the technologies it uses includes:
+Some of the technologies it uses includes:
 - Node.js
 - Express
 - Amazon-S3
