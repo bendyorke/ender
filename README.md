@@ -9,6 +9,7 @@ Some of the technologies it uses includes:
 - Node.js
 - Express
 - Amazon-S3
+- ImageMagick
 - Mongoose/MongoDB
 - Jade Templating
 - Stylus CSs
@@ -16,7 +17,7 @@ Some of the technologies it uses includes:
 Functionality
 =====
 
-This application allows photo uploading to Amazon S3 using the Amazon Web Services SDK.  Once uploaded it stores the photo url in mongoose, and can retrieve the images and display them.  It relies on a restful architecture for the creation and retrieval of photos.
+This application allows photo uploading to Amazon S3 using the Amazon Web Services SDK. Before uploading, it resizes the image to have a width of 1000px. Once uploaded it stores the photo url in mongoose, and can retrieve the images and display them.  It relies on a restful architecture for the creation and retrieval of photos.
 
 In the Future
 =====
