@@ -6,13 +6,20 @@ exports.new = function(req, res) {
 }
 
 exports.create = function(req, res) {
-  s3.put(req.files.file, function(err, s3Res, name) {
+  var fs       = require('fs')
+    , im       = require('imagemagick-native')
+    , filepath = req.files.file.path
+    , filename = req.files.file.originalFilename
+    , processed_file = im.convert({
+        srcData: fs.readFileSync(filepath)
+      , width: 1000
+      , resizeStyle: 'aspectfit' })
+
+  s3.put(processed_file, filename, function(err, s3_res, name) {
     if (err) throw err
     var photo = new Photo({ url: 'https://s3-us-west-1.amazonaws.com/enderisapuppy/'+name })
-    console.log(name, "successfully uploaded to S3")
     photo.save( function(err, photo) {
       if (err) res.render('index', {title: 'error'} )
-      console.log(name, "successfully saved")
       res.redirect('photos')
     })
   })
