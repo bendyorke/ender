@@ -1,11 +1,11 @@
 extends ../layout
 
 block content
+  input(type="file", name="file", id="file-field", multiple)
   div.header
     div.name Sir Ender
     div.species Siberan Husky
     div.born September 17, 2013
-    input(type="file", name="file", id="file-field", multiple)
 
   div.photos-wrapper
     div.photo-column.photo-column-left
@@ -21,4 +21,4 @@ block content
         if index%3===2 
           img(src="#{photo.url}", data-index="#{index}", data-mod3="#{index % 3}")
 
-  script(type="text/javascript", src="./javascripts/photos_list.js")
+  script(type="text/javascript", src="/javascripts/photos_list.js")

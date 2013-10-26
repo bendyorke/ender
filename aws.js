@@ -6,18 +6,16 @@ AWS.config.update({
 , secretAccessKey: process.env.SECRET
 })
 
-exports.put = function(file, filename, callback) {
+exports.put = function(file, key, callback) {
   var s3bucket = new AWS.S3({params: {Bucket: 'enderisapuppy'}});
-  //fs.readFile(file.path, function(err, data) {
-    s3bucket.createBucket(function() {
-      params = {
-        Key  : new Date().getTime() + '_' + filename
-      , Body : file 
-      , ACL  : 'public-read'
-      }
-      s3bucket.putObject(params, function(err, res) {
-        callback(err, res, params.Key)
-      })
+  s3bucket.createBucket(function() {
+    params = {
+      Key  : key
+    , Body : file 
+    , ACL  : 'public-read'
+    }
+    s3bucket.putObject(params, function(err, res) {
+      callback(err, res)
     })
-  //})
+  })
 }

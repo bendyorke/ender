@@ -9,18 +9,22 @@ exports.create = function(req, res) {
   var fs       = require('fs')
     , im       = require('imagemagick-native')
     , filepath = req.files.file.path
-    , filename = req.files.file.originalFilename
+    , filename = new Date().getTime() + "_" + req.files.file.originalFilename
     , processed_file = im.convert({
         srcData: fs.readFileSync(filepath)
       , width: 1000
       , resizeStyle: 'aspectfit' })
 
-  s3.put(processed_file, filename, function(err, s3_res, name) {
+  s3.put(processed_file, filename, function(err, s3_res) {
     if (err) throw err
-    var photo = new Photo({ url: 'https://s3-us-west-1.amazonaws.com/enderisapuppy/'+name })
+    var photo = new Photo({ url: 'https://s3-us-west-1.amazonaws.com/enderisapuppy/'+filename })
     photo.save( function(err, photo) {
-      if (err) res.render('index', {title: 'error'} )
-      res.redirect('photos')
+      if (err) throw err
+      if (req.xhr) {
+        res.send(photo.url, 200)
+      } else {
+        res.redirect('photos')
+      }
     })
   })
 }
