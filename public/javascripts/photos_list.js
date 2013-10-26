@@ -44,34 +44,59 @@ function multipartPost(url, params, callback) {
     , image= makeImage()
   data.append('file', params)
 
-  xml.upload.onprogress = function(e) { progressHandler.call(xml, e, image) } 
-  xml.onreadystatechange = function() { if (xml.readyState===4) finishedHandler.call(xml, image) } 
+  //xml.upload.onprogress = function(e) { progressHandler.call(xml, e, image) } 
+  //xml.onreadystatechange = function() { if (xml.readyState===4) finishedHandler.call(xml, image) } 
+  xml.onreadystatechange = function() { progressHandler.call(xml, image) }
 
   xml.open('post', url)
   xml.setRequestHeader("X-Requested-With","XMLHttpRequest")
   xml.send(data)
 }
 
-function progressHandler(e, image) {
-  var progress = parseInt((e.loaded/e.total)*4, 10)
-  switch(progress) 
+function progressHandler(image) {
+  switch(this.readyState) 
   {
-  case 0:
-    if(image.src!=='/images/sending.png') image.src = '/images/sending.png'
-    break;
   case 1:
-    if(image.src!=='/images/processing.png') image.src = '/images/processing.png'
+    image.src = '/images/sending.png'
     break;
   case 2:
-    if(image.src!=='/images/authorizing.png') image.src = '/images/authorizing.png'
+    image.src = '/images/processing.png'
+    break;
+  case 3:
+    image.src = '/images/authorizing.png'
+    break;
+  case 4:
+    if(this.status===200) {
+      image.src = this.responseText
+    } else {
+      console.log(this.status, "Error")
+    }
     break;
   }
 }
 
-finishedHandler = function(image) {
-  if(this.status===200) {
-    image.src = this.responseText
-  } else {
-    console.log(this.status, "Error")
-  }
-}
+//function progressHandler(e, image) {
+//  var progress = parseInt((e.loaded/e.total)*4, 10)
+//  switch(progress) 
+//  {
+//  case 0:
+//    if(image.src!=='/images/sending.png') image.src = '/images/sending.png'
+//    break;
+//  case 1:
+//    if(image.src!=='/images/processing.png') image.src = '/images/processing.png'
+//    break;
+//  case 2:
+//    if(image.src!=='/images/authorizing.png') image.src = '/images/authorizing.png'
+//    break;
+//  }
+//}
+//
+//finishedHandler = function(image) {
+//  if(this.status===200) {
+//    image.src = this.responseText
+//  } else {
+//    console.log(this.status, "Error")
+//  }
+//}
+
+
