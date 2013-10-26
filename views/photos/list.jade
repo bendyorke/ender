@@ -1,7 +1,8 @@
 extends ../layout
 
 block content
-  input(type="file", name="file", id="file-field", multiple)
+  input(type="file", name="file", id="file-field", onclick="javascript:void(0)", multiple)
+
   div.header
     div.name Sir Ender
     div.species Siberan Husky
@@ -22,3 +23,4 @@ block content
           img(src="#{photo.url}", data-index="#{index}", data-mod3="#{index % 3}")
 
   script(type="text/javascript", src="/javascripts/photos_list.js")
+    
