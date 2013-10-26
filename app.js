@@ -29,7 +29,10 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // mongoose config
-mongoose.connect('mongodb://localhost/ender');
+var uristring = process.env.MONGOLAB_URI || 
+                process.env.MONGOHQ_URL  || 
+                'mongodb://localhost/ender'
+mongoose.connect(uristring)
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
